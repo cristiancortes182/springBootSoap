@@ -1,0 +1,138 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://ejemplo.com/school"
+           xmlns="http://ejemplo.com/school"
+           elementFormDefault="qualified">
+
+    <!-- Definición de la estructura de Estudiante -->
+    <xs:complexType name="Estudiante">
+        <xs:sequence>
+            <xs:element name="id_estudiante" type="xs:int"/>
+            <xs:element name="nombre" type="xs:string"/>
+            <xs:element name="apellido" type="xs:string"/>
+            <xs:element name="correo" type="xs:string"/>
+            <xs:element name="edad" type="xs:int"/>
+            <xs:element name="fk_pais" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Definición de la estructura de Asignatura -->
+    <xs:complexType name="Asignatura">
+        <xs:sequence>
+            <xs:element name="id_asignatura" type="xs:int"/>
+            <xs:element name="nombre_asignatura" type="xs:string"/>
+            <xs:element name="creditos" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Definición de la estructura de País -->
+    <xs:complexType name="Pais">
+        <xs:sequence>
+            <xs:element name="id_pais" type="xs:int"/>
+            <xs:element name="nombre_pais" type="xs:string"/>
+            <xs:element name="codigo" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Contenedor de listas -->
+    <xs:complexType name="ListaEstudiantes">
+        <xs:sequence>
+            <xs:element name="estudiante" type="Estudiante" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ListaAsignaturas">
+        <xs:sequence>
+            <xs:element name="asignatura" type="Asignatura" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Solicitudes y Respuestas -->
+
+    <xs:element name="GuardarEstudianteRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="estudiante" type="Estudiante"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GuardarEstudianteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="mensaje" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="EliminarEstudianteRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id_estudiante" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="EliminarEstudianteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="mensaje" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ModificarEstudianteRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id_estudiante" type="xs:int"/>
+                <xs:element name="estudiante" type="Estudiante"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ObtenerEstudiantesRequest">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ObtenerEstudiantesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="lista_estudiantes" type="ListaEstudiantes"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Operaciones para Asignaturas -->
+
+    <xs:element name="GuardarAsignaturaRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="asignatura" type="Asignatura"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ObtenerAsignaturasRequest">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ObtenerAsignaturasResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="lista_asignaturas" type="ListaAsignaturas"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
+
+
+
+
+
+
+
+
