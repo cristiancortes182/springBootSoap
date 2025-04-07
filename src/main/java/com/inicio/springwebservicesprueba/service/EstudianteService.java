@@ -1,5 +1,6 @@
 package com.inicio.springwebservicesprueba.service;
 
+import com.inicio.springwebservicesprueba.dto.AsignaturaDTO;
 import com.inicio.springwebservicesprueba.repository.EstudianteDAO;
 import com.inicio.springwebservicesprueba.dto.EstudianteDTO;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.List;
 public class EstudianteService {
 
     private final EstudianteDAO estudianteDAO;
+
 
     public EstudianteService(EstudianteDAO estudianteDAO) {
         this.estudianteDAO = estudianteDAO;
@@ -35,4 +37,15 @@ public class EstudianteService {
 
 
     }
+
+   public List<AsignaturaDTO> obtenerAsignaturasPorEstudiante(int idestudiante) {
+
+        return estudianteDAO.obtenerAsignaturasPorEstudiante(idestudiante);
+   }
+
+    public EstudianteDTO obtenerEstudiantePorId(int idEstudiante) {
+        return estudianteDAO.obtenerEstudiantePorId(idEstudiante);
+    }
+
+
 }

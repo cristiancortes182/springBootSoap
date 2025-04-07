@@ -1,7 +1,9 @@
 package com.inicio.springwebservicesprueba.repository;
 
 import com.ejemplo.school.Asignatura;
+import com.inicio.springwebservicesprueba.dto.AsignaturaDTO;
 import com.inicio.springwebservicesprueba.dto.EstudianteDTO;
+import com.inicio.springwebservicesprueba.mapper.AsignaturaRowpperDB;
 import com.inicio.springwebservicesprueba.mapper.EstudianteRowmapperDB;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,12 +11,16 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class EstudianteDAO {
 
     private final EstudianteRowmapperDB estudianteRowmapperDB = new EstudianteRowmapperDB();
+    private final AsignaturaRowpperDB asignaturaRowpperDB = new AsignaturaRowpperDB();
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -54,17 +60,9 @@ public class EstudianteDAO {
                 
         try {
             EstudianteDTO estudianteExistente = jdbcTemplate.queryForObject(sqlBuscar, (rs, rowNum) -> {
-                EstudianteDTO estudiante = new EstudianteDTO();
-                estudiante.setIdStudiante(rs.getInt("id_estudiante"));
-                estudiante.setNombre(rs.getString("nombre"));
-                estudiante.setApellido(rs.getString("apellido"));
-                estudiante.setEdad(rs.getInt("edad"));
-                estudiante.setCorreo(rs.getString("correo"));
-                estudiante.setFkPais(rs.getInt("fk_pais"));
-                return estudiante;
+
+                return estudianteRowmapperDB.mapRow(rs, rowNum);
             }, idEstudiante);
-
-
 
             return null;
 
@@ -74,22 +72,24 @@ public class EstudianteDAO {
         }
     }
 
-//    public List<Asignatura> obtenerAsignaturasDeEstudiante(int estudianteId) {
-//        String sql = """
-//            SELECT a.id, a.nombre_asignatura, a.creditos
-//            FROM asignatura a
-//            INNER JOIN estudiante_asignatura ea ON a.id = ea.asignatura_id
-//            WHERE ea.estudiante_id = ?
-//        """;
-//
-//        return jdbcTemplate.query(sql, new Object[]{estudianteId}, (rs, rowNum) -> {
-//            Asignatura asignatura = new Asignatura();
-//            asignatura.setId(rs.getInt("id"));
-//            asignatura.setNombreAsignatura(rs.getString("nombre_asignatura"));
-//            asignatura.setCreditos(rs.getInt("creditos"));
-//            return asignatura;
-//        });
-//    }
+    public EstudianteDTO obtenerEstudiantePorId(int idEstudiante) {
+        String sql = "SELECT * FROM estudiantes WHERE id_estudiante = ?";
+        return jdbcTemplate.queryForObject(sql, estudianteRowmapperDB, idEstudiante);
+    }
 
-
+    public List<AsignaturaDTO> obtenerAsignaturasPorEstudiante(int idEstudiante) {
+        String sql = "SELECT a.id_asignatura, a.nombre_asignatura, a.creditos " +
+                "FROM asignaturas a " +
+                "JOIN estudiante_asignatura ea ON a.id_asignatura = ea.id_asignatura " +
+                "WHERE ea.id_estudiante = ?";
+        return jdbcTemplate.query(sql,asignaturaRowpperDB, idEstudiante);
+    }
 }
+
+
+
+
+
+
+
+

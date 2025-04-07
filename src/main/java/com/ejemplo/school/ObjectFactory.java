@@ -2,7 +2,7 @@
 // Este archivo ha sido generado por Eclipse Implementation of JAXB v3.0.2 
 // Visite https://eclipse-ee4j.github.io/jaxb-ri 
 // Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
-// Generado el: 2025.04.04 a las 05:04:28 PM COT 
+// Generado el: 2025.04.06 a las 09:52:49 PM COT 
 //
 
 
@@ -146,6 +146,22 @@ public class ObjectFactory {
      */
     public ListaAsignaturas createListaAsignaturas() {
         return new ListaAsignaturas();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAsignaturasPorEstudianteRequest }
+     * 
+     */
+    public ObtenerAsignaturasPorEstudianteRequest createObtenerAsignaturasPorEstudianteRequest() {
+        return new ObtenerAsignaturasPorEstudianteRequest();
+    }
+
+    /**
+     * Create an instance of {@link ObtenerAsignaturasPorEstudianteResponse }
+     * 
+     */
+    public ObtenerAsignaturasPorEstudianteResponse createObtenerAsignaturasPorEstudianteResponse() {
+        return new ObtenerAsignaturasPorEstudianteResponse();
     }
 
     /**

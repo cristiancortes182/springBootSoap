@@ -2,25 +2,25 @@ package com.inicio.springwebservicesprueba.dto;
 
 public class AsignaturaDTO {
 
-    private  int id_asignatura;
+    private  int idAsignatura;
     private String nombreAsignatura;
     private int creditos;
 
     public AsignaturaDTO() {
     }
 
-    public AsignaturaDTO(int id_asignatura, String nombreAsignatura, int creditos) {
-        this.id_asignatura = id_asignatura;
+    public AsignaturaDTO(int idAsignatura, String nombreAsignatura, int creditos) {
+        this.idAsignatura = idAsignatura;
         this.nombreAsignatura = nombreAsignatura;
         this.creditos = creditos;
     }
 
-    public int getId_asignatura() {
-        return id_asignatura;
+    public int getIdAsignatura() {
+        return idAsignatura;
     }
 
-    public void setId_asignatura(int id_asignatura) {
-        this.id_asignatura = id_asignatura;
+    public void setIdAsignatura(int idAsignatura) {
+        this.idAsignatura = idAsignatura;
     }
 
     public String getNombreAsignatura() {

@@ -12,6 +12,7 @@
             <xs:element name="correo" type="xs:string"/>
             <xs:element name="edad" type="xs:int"/>
             <xs:element name="fk_pais" type="xs:int"/>
+            <xs:element name="asignaturas" type="Asignatura" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -21,6 +22,7 @@
             <xs:element name="id_asignatura" type="xs:int"/>
             <xs:element name="nombre_asignatura" type="xs:string"/>
             <xs:element name="creditos" type="xs:int"/>
+            <xs:element name="asignaturas" type="Asignatura" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -123,6 +125,24 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="lista_asignaturas" type="ListaAsignaturas"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="obtenerAsignaturasPorEstudianteRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id_estudiante" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="obtenerAsignaturasPorEstudianteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="estudiante" type="Estudiante"/>
+                <xs:element name="asignatura" type="Asignatura" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

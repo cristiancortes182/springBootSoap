@@ -1,7 +1,9 @@
 package com.inicio.springwebservicesprueba.mapper;
 
 
+import com.ejemplo.school.Asignatura;
 import com.ejemplo.school.Estudiante;
+import com.inicio.springwebservicesprueba.dto.AsignaturaDTO;
 import com.inicio.springwebservicesprueba.dto.EstudianteDTO;
 import org.springframework.stereotype.Component;
 
@@ -36,4 +38,7 @@ public class EstudianteMapper {
 
 
     }
+
+
+
 }
