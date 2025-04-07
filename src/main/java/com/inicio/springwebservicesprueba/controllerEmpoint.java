@@ -60,14 +60,15 @@ public class controllerEmpoint {
     @ResponsePayload
     public ListaEstudiantes obtenerEstudiantesRequest(@RequestPayload ObtenerEstudiantesRequest request) {
 
+        List<EstudianteDTO> listaDTO = estudianteService.obtenerEstudiantes();
+
+        List<Estudiante> listaXml = listaDTO.stream()
+                .map(estudianteMapper::toXml)
+                .collect(Collectors.toList());
+
         ListaEstudiantes listaEstudiantes = new ListaEstudiantes();
+        listaEstudiantes.getEstudiante().addAll(listaXml);
 
-        List<EstudianteDTO> list = estudianteService.obtenerEstudiantes();
-        for(EstudianteDTO estudianteDTO : list){
-            Estudiante estudianteXml = estudianteMapper.toXml(estudianteDTO);
-            listaEstudiantes.getEstudiante().add(estudianteXml);
-
-        }
         return listaEstudiantes;
     }
 
