@@ -6,6 +6,7 @@ import com.inicio.springwebservicesprueba.dto.AsignaturaDTO;
 import com.inicio.springwebservicesprueba.dto.EstudianteDTO;
 import com.inicio.springwebservicesprueba.mapper.AsignaturaMapper;
 import com.inicio.springwebservicesprueba.mapper.EstudianteMapper;
+import com.inicio.springwebservicesprueba.service.AsignaturaService;
 import com.inicio.springwebservicesprueba.service.EstudianteService;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -14,6 +15,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.Collections.addAll;
 
 @Endpoint
 public class controllerEmpoint {
@@ -25,12 +28,15 @@ public class controllerEmpoint {
 
     private final EstudianteService estudianteService;
 
+    private final AsignaturaService  asignaturaService;
+
     private static final String NAMESPACE_URI = "http://ejemplo.com/school";
 
-    public controllerEmpoint(AsignaturaMapper asignaturaMapper, EstudianteMapper estudianteMapper, EstudianteService estudianteService) {
+    public controllerEmpoint(AsignaturaMapper asignaturaMapper, EstudianteMapper estudianteMapper, EstudianteService estudianteService, AsignaturaService asignaturaService) {
         this.asignaturaMapper = asignaturaMapper;
         this.estudianteMapper = estudianteMapper;
         this.estudianteService = estudianteService;
+        this.asignaturaService = asignaturaService;
     }
 
 
@@ -65,7 +71,7 @@ public class controllerEmpoint {
         List<Estudiante> listaXml = listaDTO.stream()
                 .map(estudianteMapper::toXml)
                 .collect(Collectors.toList());
-
+        System.out.println("Invocando obtenerEstudiantesRequest...");
         ListaEstudiantes listaEstudiantes = new ListaEstudiantes();
         listaEstudiantes.getEstudiante().addAll(listaXml);
 
@@ -77,17 +83,6 @@ public class controllerEmpoint {
     public ModificarEstudianteRequest modificarEstudiante(@RequestPayload ModificarEstudianteRequest request) {
 
        estudianteService.modificarEstudiante(estudianteMapper.toDTO(request.getEstudiante()), request.getIdEstudiante());
-
-        return null;
-
-    }
-
-
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ModificarEstudianteRequest")
-    @ResponsePayload
-    public ModificarEstudianteRequest obtenerAsignaturasEstudiantes(@RequestPayload ModificarEstudianteRequest request) {
-
-        estudianteService.modificarEstudiante(estudianteMapper.toDTO(request.getEstudiante()), request.getIdEstudiante());
 
         return null;
 
@@ -110,6 +105,29 @@ public class controllerEmpoint {
                         .map(asignaturaMapper::toXml)
                         .collect(Collectors.toList())
         );
+
+        return response;
+    }
+
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "obtenerEstudiantesPorAsignaturaRequest")
+    @ResponsePayload
+    public ObtenerEstudiantesPorAsignaturaResponse obtenerEstudiantesPorAsignatura(
+            @RequestPayload ObtenerEstudiantesPorAsignaturaRequest request) {
+
+        List<EstudianteDTO> estudiantesDTO = estudianteService.obtenerEstudiantesPorAsignatura(request.getIdAsignatura());
+
+        AsignaturaDTO asignatura = asignaturaService.obtenerEstudiantePorId(request.getIdAsignatura());
+
+        Asignatura asignaturaXml = asignaturaMapper.toXml(asignatura);
+        List<Estudiante> estudiantesXml = estudiantesDTO.stream()
+                .map(estudianteMapper::toXml)
+                .collect(Collectors.toList());
+
+        ObtenerEstudiantesPorAsignaturaResponse response = new ObtenerEstudiantesPorAsignaturaResponse();
+        response.setAsignatura(asignaturaXml);
+        response.getEstudiante().addAll(estudiantesXml);
+
 
         return response;
     }

@@ -80,10 +80,28 @@ public class EstudianteDAO {
     public List<AsignaturaDTO> obtenerAsignaturasPorEstudiante(int idEstudiante) {
         String sql = "SELECT a.id_asignatura, a.nombre_asignatura, a.creditos " +
                 "FROM asignaturas a " +
-                "JOIN estudiante_asignatura ea ON a.id_asignatura = ea.id_asignatura " +
+                "JOIN estudiantes_asignaturas ea ON a.id_asignatura = ea.id_asignatura " +
                 "WHERE ea.id_estudiante = ?";
         return jdbcTemplate.query(sql,asignaturaRowpperDB, idEstudiante);
     }
+
+
+    public List<EstudianteDTO> obtenerEstudiantesPorAsignatura(int idAsignatura) {
+
+
+
+        String sql = """
+        SELECT e.id_estudiante, e.nombre,e.edad,e.fk_pais,e.correo,e.apellido
+        FROM estudiantes e
+        JOIN estudiantes_asignaturas ea ON e.id_estudiante = ea.id_estudiante
+        WHERE ea.id_asignatura = ?
+    """;
+
+        return jdbcTemplate.query(sql, estudianteRowmapperDB, idAsignatura);
+    }
+
+
+
 }
 
 

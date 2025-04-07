@@ -47,5 +47,9 @@ public class EstudianteService {
         return estudianteDAO.obtenerEstudiantePorId(idEstudiante);
     }
 
+    public List<EstudianteDTO> obtenerEstudiantesPorAsignatura(int idAsignatura) {
+        return estudianteDAO.obtenerEstudiantesPorAsignatura(idAsignatura);
+    }
+
 
 }

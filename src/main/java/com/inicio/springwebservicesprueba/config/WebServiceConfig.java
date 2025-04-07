@@ -3,7 +3,6 @@ package com.inicio.springwebservicesprueba.config;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
@@ -26,7 +25,7 @@ public class WebServiceConfig {
 
     @Bean
     public XsdSchema schoolSchema() {
-        return new SimpleXsdSchema(new org.springframework.core.io.ClassPathResource("score.xsd"));
+        return new SimpleXsdSchema(new org.springframework.core.io.ClassPathResource("core.xsd"));
     }
 
     @Bean(name = "school")

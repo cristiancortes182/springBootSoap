@@ -48,7 +48,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- Solicitudes y Respuestas -->
+
 
     <xs:element name="GuardarEstudianteRequest">
         <xs:complexType>
@@ -105,7 +105,7 @@
         </xs:complexType>
     </xs:element>
 
-    <!-- Operaciones para Asignaturas -->
+
 
     <xs:element name="GuardarAsignaturaRequest">
         <xs:complexType>
@@ -143,6 +143,26 @@
             <xs:sequence>
                 <xs:element name="estudiante" type="Estudiante"/>
                 <xs:element name="asignatura" type="Asignatura" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+
+    <xs:element name="obtenerEstudiantesPorAsignaturaRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id_asignatura" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="obtenerEstudiantesPorAsignaturaResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="asignatura" type="Asignatura"/>
+                <xs:element name="estudiante" type="Estudiante" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
