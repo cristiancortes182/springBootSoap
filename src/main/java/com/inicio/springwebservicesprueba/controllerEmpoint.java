@@ -4,10 +4,12 @@ import com.ejemplo.school.*;
 
 import com.inicio.springwebservicesprueba.dto.AsignaturaDTO;
 import com.inicio.springwebservicesprueba.dto.EstudianteDTO;
+import com.inicio.springwebservicesprueba.dto.PaisDTO;
 import com.inicio.springwebservicesprueba.mapper.AsignaturaMapper;
 import com.inicio.springwebservicesprueba.mapper.EstudianteMapper;
 import com.inicio.springwebservicesprueba.service.AsignaturaService;
 import com.inicio.springwebservicesprueba.service.EstudianteService;
+import com.inicio.springwebservicesprueba.service.PaisService;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -24,6 +26,8 @@ public class controllerEmpoint {
 
     private final AsignaturaMapper asignaturaMapper ;
 
+    private final PaisService paisService ;
+
     private final EstudianteMapper estudianteMapper;
 
     private final EstudianteService estudianteService;
@@ -32,8 +36,9 @@ public class controllerEmpoint {
 
     private static final String NAMESPACE_URI = "http://ejemplo.com/school";
 
-    public controllerEmpoint(AsignaturaMapper asignaturaMapper, EstudianteMapper estudianteMapper, EstudianteService estudianteService, AsignaturaService asignaturaService) {
+    public controllerEmpoint(AsignaturaMapper asignaturaMapper, PaisService paisService, EstudianteMapper estudianteMapper, EstudianteService estudianteService, AsignaturaService asignaturaService) {
         this.asignaturaMapper = asignaturaMapper;
+        this.paisService = paisService;
         this.estudianteMapper = estudianteMapper;
         this.estudianteService = estudianteService;
         this.asignaturaService = asignaturaService;
@@ -64,18 +69,27 @@ public class controllerEmpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerEstudiantesRequest")
     @ResponsePayload
-    public ListaEstudiantes obtenerEstudiantesRequest(@RequestPayload ObtenerEstudiantesRequest request) {
+    public ObtenerEstudiantesResponse obtenerEstudiantesRequest(@RequestPayload ObtenerEstudiantesRequest request) {
+
 
         List<EstudianteDTO> listaDTO = estudianteService.obtenerEstudiantes();
+
 
         List<Estudiante> listaXml = listaDTO.stream()
                 .map(estudianteMapper::toXml)
                 .collect(Collectors.toList());
-        System.out.println("Invocando obtenerEstudiantesRequest...");
+
+
+
+
         ListaEstudiantes listaEstudiantes = new ListaEstudiantes();
         listaEstudiantes.getEstudiante().addAll(listaXml);
 
-        return listaEstudiantes;
+
+        ObtenerEstudiantesResponse response = new ObtenerEstudiantesResponse();
+        response.setListaEstudiantes(listaEstudiantes);
+
+        return response;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ModificarEstudianteRequest")
@@ -127,11 +141,37 @@ public class controllerEmpoint {
         ObtenerEstudiantesPorAsignaturaResponse response = new ObtenerEstudiantesPorAsignaturaResponse();
         response.setAsignatura(asignaturaXml);
         response.getEstudiante().addAll(estudiantesXml);
-
-
         return response;
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerPaisesRequest")
+    @ResponsePayload
+    public ObtenerPaisesResponse obtenerPaises(@RequestPayload ObtenerPaisesRequest request){
+
+
+        List<PaisDTO> paisesBD = paisService.obtenerPaises();
+
+        ObtenerPaisesResponse response = new ObtenerPaisesResponse();
+
+        for (PaisDTO entity : paisesBD) {
+            Pais paisXML = new Pais();
+            paisXML.setIdPais(entity.getIdPais());
+            paisXML.setNombrePais(entity.getNombrePais());
+            paisXML.setCodigo(entity.getCodigo());
+
+            response.getPaises().add(paisXML);
+            System.out.println(response.getPaises().add(paisXML));
+        }
+
+
+
+        return response;
+
+
+
+
+
+    }
 
 
 

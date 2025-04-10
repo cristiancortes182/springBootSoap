@@ -167,6 +167,21 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="ObtenerPaisesRequest">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="ObtenerPaisesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="paises" type="Pais" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
 </xs:schema>
 
 
